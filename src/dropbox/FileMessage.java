@@ -34,15 +34,14 @@ public class FileMessage extends Messages {
 				break;
 			}
 		}
-<<<<<<< HEAD
 	
-		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
+		//File file = new File(ROOT+"/"+"server"+"/"+array[1]);
 		//Long lastMod = fileFound.lastModified();
-=======
+
 		
 		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
 		System.out.println(array[1]);
->>>>>>> origin/master
+
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
 			System.out.println("found and date diff");
 			fileCache.removeFile(fileFound.getAbsolutePath());
@@ -61,10 +60,9 @@ public class FileMessage extends Messages {
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
-<<<<<<< HEAD
-=======
+
 		System.out.println("size left" + sizeLeft);
->>>>>>> origin/master
+
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.flush();
