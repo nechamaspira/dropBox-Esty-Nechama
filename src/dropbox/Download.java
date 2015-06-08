@@ -40,7 +40,6 @@ public class Download extends Messages {
 			String encoded =Base64.encodeBase64String(b);
 			
 			// send fileSize or chunkSize?
-			//writer.flush();
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
 					+ encoded);
 			writer.flush();

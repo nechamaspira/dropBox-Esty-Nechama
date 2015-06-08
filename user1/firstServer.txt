@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 ½ôs¿t testing out server file
+=======
+†»ë—·
+>>>>>>> origin/master

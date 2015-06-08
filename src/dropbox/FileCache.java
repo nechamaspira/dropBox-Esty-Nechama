@@ -15,7 +15,7 @@ import org.apache.commons.codec.binary.Base64;
 public class FileCache {
 	// this exist on the hardrive
 
-	public final static  String ROOT = "./";
+	public static final  String ROOT = "./";
 	//private static final String ROOT = "dropbox\\";
 
 	private String user;

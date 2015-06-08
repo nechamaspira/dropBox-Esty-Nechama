@@ -35,8 +35,11 @@ public class ChunkMessageClient extends Messages {
 			
 			//if it is the last chunk then change the date last modified
 			int fileSize = Integer.parseInt(array[3]);
+			System.out.println(fileSize);
 			int chunkSize = chunk.getChunkSize();
+			System.out.println(chunkSize);
 			if((offset+chunkSize) == fileSize){
+				System.out.println(Long.parseLong(array[2]));
 				file.setLastModified(Long.parseLong(array[2]));
 			}
 			

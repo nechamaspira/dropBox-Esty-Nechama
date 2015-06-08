@@ -11,6 +11,7 @@ public class FileMessage extends Messages {
 	public static final String ROOT ="./";
 	private final int MAXCHUNKSIZE = 512;
 
+
 	public FileMessage(FileCache fileCache) {
 		string = "FILE";
 		this.fileCache = fileCache;
@@ -33,17 +34,26 @@ public class FileMessage extends Messages {
 				break;
 			}
 		}
+<<<<<<< HEAD
 	
 		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
 		//Long lastMod = fileFound.lastModified();
+=======
+		
+		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
+		System.out.println(array[1]);
+>>>>>>> origin/master
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
+			System.out.println("found and date diff");
 			fileCache.removeFile(fileFound.getAbsolutePath());
 			sendDownloadMessage(file);
 		} else if (!found) {
+			System.out.println("not found");
 			// download
 			sendDownloadMessage(file);
 		}
 		
+	
 
 	}
 
@@ -51,6 +61,10 @@ public class FileMessage extends Messages {
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
+<<<<<<< HEAD
+=======
+		System.out.println("size left" + sizeLeft);
+>>>>>>> origin/master
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.flush();
@@ -64,6 +78,7 @@ public class FileMessage extends Messages {
 			//	writer.flush();
 				//changed
 				writer.println("DOWNLOAD " + file.getName() + " " + offset+ " " + sizeLeft);
+				
 				writer.flush();
 				System.out.println("see if going in download");
 				break;
