@@ -15,10 +15,14 @@ import org.apache.commons.codec.binary.Base64;
 public class FileCache {
 	// this exist on the hardrive
 
-	private static final String ROOT = "C:\\Users\\Nechama\\Documents\\GitHub\\dropbox\\";
+	public final static  String ROOT = "./";
 	//private static final String ROOT = "dropbox\\";
 
 	private String user;
+
+	public String getUser() {
+		return user;
+	}
 
 	public FileCache(String user) {
 		this.user= user;

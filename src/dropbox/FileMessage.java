@@ -7,6 +7,8 @@ import java.util.List;
 
 public class FileMessage extends Messages {
 
+	
+	public static final String ROOT ="./";
 	private final int MAXCHUNKSIZE = 512;
 
 	public FileMessage(FileCache fileCache) {
@@ -24,7 +26,8 @@ public class FileMessage extends Messages {
 		Boolean found = false;
 		File fileFound = null;
 		for (int i = 0; i < files.size(); i++) {
-			if (files.get(i).getAbsolutePath().equalsIgnoreCase(array[1])) {
+			///change from getAbsolute path
+			if (files.get(i).getName().equalsIgnoreCase(array[1])) {
 				found = true;
 				fileFound = files.get(i);
 				break;
@@ -47,17 +50,19 @@ public class FileMessage extends Messages {
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
-		while (sizeLeft > 0) {
+		while (sizeLeft >= 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.flush();
-				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset
+				//changed
+				writer.println("DOWNLOAD " + file.getName() + " " + offset
 						+ " " + MAXCHUNKSIZE);
 				
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
 			} else {
 			//	writer.flush();
-				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset+ " " + sizeLeft);
+				//changed
+				writer.println("DOWNLOAD " + file.getName() + " " + offset+ " " + sizeLeft);
 				writer.flush();
 				System.out.println("see if going in download");
 				break;

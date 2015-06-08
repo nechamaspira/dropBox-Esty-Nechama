@@ -23,7 +23,7 @@ public class Server implements ReaderListener {
 		this.messages = new ArrayList<Messages>();
 		messages.add(new ListMessage(this.fileCache));
 		messages.add(new ChunkMessageServer(fileCache,sockets));
-		messages.add(new Download());
+		messages.add(new Download(fileCache));
 		
 
 		try {

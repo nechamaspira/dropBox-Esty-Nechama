@@ -1,13 +1,11 @@
 package dropbox;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 
 public class ChunkMessageClient extends Messages {
+
+	private static final String ROOT = "./";
 
 	public ChunkMessageClient(FileCache cache) {
 		string = "CHUNK";
@@ -26,7 +24,7 @@ public class ChunkMessageClient extends Messages {
 			
 			//do we need to add this file to our fileCache?
 			int offset = Integer.valueOf(array[4]);
-			String filename = array[1];
+			String filename = ROOT+"/"+fileCache.getUser()+"/"+array[1];
 			String encoded = array[5];
 			Chunk chunk = new Chunk(filename,encoded,offset);
 			fileCache.addChunk(chunk);

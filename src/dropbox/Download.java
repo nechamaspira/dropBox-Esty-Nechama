@@ -11,7 +11,10 @@ import org.apache.commons.codec.binary.Base64;
 
 public class Download extends Messages {
 
-	public Download() {
+	private static final String ROOT = "./";
+
+	public Download(FileCache cache) {
+		this.fileCache=cache;
 		string = "DOWNLOAD";
 	}
 
@@ -24,7 +27,7 @@ public class Download extends Messages {
 		// bytes]
 
 		// does this find the file that we sent in the name for?
-		File file = new File(array[1]);
+		File file = new File(ROOT+"/"+fileCache.getUser()+"/"+array[1]);
 		int offset = Integer.parseInt(array[2]);
 		int chunkLength = Integer.parseInt(array[3]);
 		RandomAccessFile raf;
