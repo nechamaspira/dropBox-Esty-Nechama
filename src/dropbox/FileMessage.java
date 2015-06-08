@@ -20,23 +20,21 @@ public class FileMessage extends Messages {
 		List<File> files = fileCache.getFiles();
 		Boolean found = false;
 		File fileFound = null;
-		int indexFound = -1;
 		for (int i = 0; i < files.size(); i++) {
 			if (files.get(i).getName().equalsIgnoreCase(array[1])) {
 				found = true;
 				fileFound = files.get(i);
-				indexFound = i;
 				break;
 			}
 		}
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
-			// download and get rid
-			files.remove(indexFound);
+			fileCache.removeFile(fileFound.getName());
 			sendDownloadMessage(fileFound);
 		} else if (!found) {
 			// download
 			sendDownloadMessage(fileFound);
 		}
+		
 
 	}
 
@@ -56,7 +54,7 @@ public class FileMessage extends Messages {
 				break;
 			}
 		}
-		//must check uploads messages, call chuck message server
+		
 	}
 
 }

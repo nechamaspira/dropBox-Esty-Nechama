@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
@@ -15,10 +16,10 @@ public class ChunkMessageServer extends Messages {
 	
 	private LinkedList<Socket> sockets;
 
-	public ChunkMessageServer(FileCache fileCache,LinkedList<Socket> socket) {
+	public ChunkMessageServer(FileCache fileCache,LinkedList<Socket> sockets) {
 		string = "CHUNK";
 		this.fileCache=fileCache;
-		this.sockets=socket;
+		this.sockets=sockets;
 		
 	}
 
@@ -28,28 +29,37 @@ public class ChunkMessageServer extends Messages {
 		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
 		// bytes]
 
-	//	Chunk chunk = new Chunk();
 	
 		try {
-			/*File file = new File(array[1]);
-			RandomAccessFile raf = new RandomAccessFile(file, "rw");
-			Long position = Long.parseLong(array[4]);
-			raf.seek(position);
-			byte[] b = Base64.decode(array[5]);
-			raf.write(b);*/
-			//do we need to add this file to our fileCache?
+	
 			int offset = Integer.valueOf(array[4]);
-			Chunk chunk = new Chunk(array[1],array[5],offset);
+			String filename = array[1];
+			String encoded = array[5];
+			long  lastModified = Long.parseLong(array[2]);
+			
+			if(offset==0){
+				List<File> files = fileCache.getFiles();
+				for(int i=0; i<filename.length(); i++){
+					if(files.get(i).getName().equalsIgnoreCase(filename)){
+						fileCache.removeFile(filename);
+						break;
+					}
+				}
+			}
+			Chunk chunk = new Chunk(filename,encoded,offset);
 			fileCache.addChunk(chunk);
 			
-			//do i need to change the date last modified in the server
-			/*if (file.lastModified() != System.currentTimeMillis()) {
-				file.setLastModified(System.currentTimeMillis());
-			}*/
 			
-			//needs to send a sync message to all of the clients.
-			//check with file size and check with offset
-		} catch (NumberFormatException e) {
+			int fileSize = Integer.parseInt(array[3]);
+			int chunkSize = chunk.getChunkSize();
+			if((offset+chunkSize) == fileSize){
+				for(Socket s: sockets){
+					writer = new PrintWriter(s.getOutputStream());
+					writer.println("SYNC "+ filename + " "+lastModified + fileSize);
+				}
+			}
+			
+		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
 	}

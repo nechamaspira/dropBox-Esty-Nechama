@@ -16,24 +16,25 @@ public class FileCache {
 	// this exist on the hardrive
 
 	private static final String ROOT = "dropbox/";
+	private String user;
 
 	public FileCache(String user) {
-		new File(ROOT+user).mkdir();
+		this.user= user;
+		new File(ROOT+this.user).mkdir();
 	}
 
 	public List<File> getFiles() {
-		File folder = new File(ROOT);
+		File folder = new File(ROOT+user);
 
 		File[] listOfFiles = folder.listFiles();
 
-		/*
-		 * for (File file : listOfFiles) { if (file.isFile()) {
-		 * 
-		 * } }
-		 */
 		ArrayList<File> array = new ArrayList<File>(Arrays.asList(listOfFiles));
 		return array;
 
+	}
+	public void removeFile(String filename){
+		File file = new File(filename);
+		file.delete();
 	}
 	
 	public int getNumberFiles(){

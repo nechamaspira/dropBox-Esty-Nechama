@@ -7,8 +7,11 @@ import java.io.PrintWriter;
 public class Sync extends Messages {
 	
 private final int MAXCHUNKSIZE =512;
-	public Sync(){
+private FileMessage fileMessage;
+
+	public Sync(FileCache fileCache){
 		string = "SYNC";
+		fileMessage = new FileMessage(fileCache);
 	}
 
 
@@ -17,7 +20,6 @@ private final int MAXCHUNKSIZE =512;
 		writer = new PrintWriter(outStream);
 		//SYNC [filename] [last modified] [filesize]
 		
-		//do i need to cehck if i was the one that uploaded it by checking if i have the file and if the date is the same?
 		//download filename offset chunksize
 		File file = new File(array[1]);
 		long fileSize = file.length();
@@ -34,6 +36,7 @@ private final int MAXCHUNKSIZE =512;
 				break;
 			}
 		}
-	}
+	
 
+	}
 }

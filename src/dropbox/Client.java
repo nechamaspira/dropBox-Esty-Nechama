@@ -24,7 +24,7 @@ public class Client implements ReaderListener{
 		}
 		fileCache = new FileCache("client");
 		messages = new ArrayList<Messages>();
-		messages.add(new Sync());
+		messages.add(new Sync(fileCache));
 		messages.add(new ChunkMessageClient(fileCache));
 		messages.add(new FileMessage(fileCache));
 		messages.add(new Files());
