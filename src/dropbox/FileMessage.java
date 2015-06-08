@@ -22,39 +22,41 @@ public class FileMessage extends Messages {
 		Boolean found = false;
 		File fileFound = null;
 		for (int i = 0; i < files.size(); i++) {
-			if (files.get(i).getName().equalsIgnoreCase(array[1])) {
+			if (files.get(i).getAbsolutePath().equalsIgnoreCase(array[1])) {
 				found = true;
 				fileFound = files.get(i);
 				break;
 			}
 		}
+		
+		File file = new File(array[1]);
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
-			fileCache.removeFile(fileFound.getName());
-			sendDownloadMessage(fileFound);
+			fileCache.removeFile(fileFound.getAbsolutePath());
+			sendDownloadMessage(file);
 		} else if (!found) {
 			// download
-			sendDownloadMessage(fileFound);
+			sendDownloadMessage(file);
 		}
 		
 
 	}
 
-	public void sendDownloadMessage(File fileFound) {
-		long fileSize = fileFound.length();
+	public void sendDownloadMessage(File file) {
+		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
-				writer.println("DOWNLOAD " + fileFound.getName() + " " + offset
-						+ " " + MAXCHUNKSIZE);
 				writer.flush();
+				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset
+						+ " " + MAXCHUNKSIZE+ "\n");
+				
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
 			} else {
-				writer.println("DOWNLOAD " + fileFound.getName() + " " + offset
-						+ " " + sizeLeft);
 				writer.flush();
-				break;
+				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset+ " " + sizeLeft+"\n");
+				sizeLeft=0;
 			}
 		}
 		

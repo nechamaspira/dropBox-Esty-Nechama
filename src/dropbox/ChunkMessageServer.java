@@ -40,7 +40,7 @@ public class ChunkMessageServer extends Messages {
 			if(offset==0){
 				List<File> files = fileCache.getFiles();
 				for(int i=0; i<filename.length(); i++){
-					if(files.get(i).getName().equalsIgnoreCase(filename)){
+					if(files.get(i).getAbsolutePath().equalsIgnoreCase(filename)){
 						fileCache.removeFile(filename);
 						break;
 					}
@@ -55,8 +55,8 @@ public class ChunkMessageServer extends Messages {
 			if((offset+chunkSize) == fileSize){
 				for(Socket s: sockets){
 					writer = new PrintWriter(s.getOutputStream());
-					writer.println("SYNC "+ filename + " "+lastModified + fileSize);
 					writer.flush();
+					writer.println("SYNC "+ filename + " "+lastModified + fileSize+"\n");
 				}
 			}
 			

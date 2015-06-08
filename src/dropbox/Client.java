@@ -14,7 +14,7 @@ public class Client implements ReaderListener{
 	private Socket socket;
 	private PrintWriter writer;
 	
-	public Client(){
+	public Client(String user){
 		try{
 			socket = new Socket("localhost", 2009);
 			writer = new PrintWriter(socket.getOutputStream());
@@ -24,7 +24,7 @@ public class Client implements ReaderListener{
 		catch(IOException ex){
 			ex.printStackTrace();
 		}
-		fileCache = new FileCache("client");
+		fileCache = new FileCache(user);
 		messages = new ArrayList<Messages>();
 		messages.add(new Sync(fileCache));
 		messages.add(new ChunkMessageClient(fileCache));

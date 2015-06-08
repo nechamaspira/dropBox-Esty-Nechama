@@ -33,9 +33,10 @@ public class Download extends Messages {
 			byte[] encoded = encoder.encode(b);
 
 			// send fileSize or chunkSize?
-			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
-					+ encoded);
 			writer.flush();
+			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
+					+ encoded+"\n");
+			//writer.flush();
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
