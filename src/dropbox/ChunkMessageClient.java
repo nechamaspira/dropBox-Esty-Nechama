@@ -22,7 +22,7 @@ public class ChunkMessageClient extends Messages {
 		System.out.println("went in chunk");
 
 		try {
-			File file = new File(array[1]);
+			File file = new File(ROOT+"/"+fileCache.getUser()+"/"+array[1]);
 			
 			//do we need to add this file to our fileCache?
 			int offset = Integer.valueOf(array[4]);
@@ -36,8 +36,10 @@ public class ChunkMessageClient extends Messages {
 			//if it is the last chunk then change the date last modified
 			int fileSize = Integer.parseInt(array[3]);
 			System.out.println(fileSize);
+			System.out.println(file.exists());
 			int chunkSize = chunk.getChunkSize();
 			System.out.println(chunkSize);
+			System.out.println(file.lastModified());
 			if((offset+chunkSize) == fileSize){
 				System.out.println(Long.parseLong(array[2]));
 				file.setLastModified(Long.parseLong(array[2]));
