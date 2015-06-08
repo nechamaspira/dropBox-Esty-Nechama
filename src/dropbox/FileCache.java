@@ -6,15 +6,16 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.List;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import org.apache.commons.codec.binary.Base64;
 
 public class FileCache {
 	// this exist on the hardrive
 
-	private static final String ROOT = "C:\\Users\\Esti\\Documents\\COLLEGE\\GitHub\\dropBox-Esty-Nechama\\";
+	private static final String ROOT = "C:\\Users\\Nechama\\Documents\\GitHub\\dropbox\\";
 	//private static final String ROOT = "dropbox\\";
 
 	private String user;
@@ -44,11 +45,12 @@ public class FileCache {
 
 	public void addChunk(Chunk chunk) {// array of bites
 		File file = new File(chunk.getFilename());
+		System.out.println("adding chunk");
 		RandomAccessFile raf;
 		try {
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(chunk.getStart());
-			byte[] b = Base64.decode(chunk.getInfo());
+			byte[] b =Base64.decodeBase64(chunk.getInfo());
 			//raf.write(chunk.getBytes());
 			raf.write(b);
 			raf.close();
@@ -56,10 +58,7 @@ public class FileCache {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (Base64DecodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	public Chunk getChunk(File file, String filename, int start, int length) {
@@ -69,7 +68,7 @@ public class FileCache {
 			RandomAccessFile raf = new RandomAccessFile(file, "rw");
 			raf.read(b, start, length);
 			
-			 encoded = Base64.encode(b);
+			 encoded =Base64.encodeBase64String(b);
 
 			raf.close();
 		} catch (IOException e) {

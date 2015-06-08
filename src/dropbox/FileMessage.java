@@ -16,6 +16,8 @@ public class FileMessage extends Messages {
 
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
+		System.out.println("went in to filemessages");
+
 		writer = new PrintWriter(outStream);
 		System.out.println(array[1]);
 		List<File> files = fileCache.getFiles();
@@ -49,14 +51,17 @@ public class FileMessage extends Messages {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.flush();
 				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset
-						+ " " + MAXCHUNKSIZE+ "\n");
+						+ " " + MAXCHUNKSIZE);
 				
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
 			} else {
+			//	writer.flush();
+				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset+ " " + sizeLeft);
 				writer.flush();
-				writer.println("DOWNLOAD " + file.getAbsolutePath() + " " + offset+ " " + sizeLeft+"\n");
-				sizeLeft=0;
+				System.out.println("see if going in download");
+				break;
+			//	sizeLeft=0;
 			}
 		}
 		

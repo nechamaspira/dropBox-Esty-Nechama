@@ -22,9 +22,10 @@ public class ReaderThread extends Thread {
 			in = socket.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			String line;
-			while ((line = reader.readLine()) != null) {
-				// tells listener that read a line
+			line = reader.readLine();
+			while (line != null && line!= "") {
 				listener.onLineRead(line, socket.getOutputStream());
+				line = reader.readLine();
 			}
 
 		} catch (IOException e) {

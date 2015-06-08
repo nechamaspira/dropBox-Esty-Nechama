@@ -15,14 +15,13 @@ public class DropboxMain {
 			Thread thread = new Thread() {
 				public void run() {
 
-					Client client = new Client("user1\\");
+					Client client = new Client("client\\");
 					client.startMessages();
 				}
 			};
 
 			thread.start();
-		
-		
+	
 	}
 
 }

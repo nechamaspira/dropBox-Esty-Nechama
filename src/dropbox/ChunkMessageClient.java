@@ -7,9 +7,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 public class ChunkMessageClient extends Messages {
 
 	public ChunkMessageClient(FileCache cache) {
@@ -22,6 +19,7 @@ public class ChunkMessageClient extends Messages {
 		//writer = new PrintWriter(outStream);
 		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
 		// bytes]
+		System.out.println("went in chunk");
 
 		try {
 			File file = new File(array[1]);

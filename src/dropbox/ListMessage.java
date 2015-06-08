@@ -26,8 +26,10 @@ public class ListMessage extends Messages {
 		List<File> files = fileCache.getFiles();
 		
 		for(int i =0; i<fileCache.getNumberFiles(); i++){
-			writer.println("FILE "+ files.get(i).getAbsolutePath() + " " + files.get(i).lastModified() + " "+ files.get(i).length()+"\n");
+			writer.println("FILE "+ files.get(i).getAbsolutePath() + " " + files.get(i).lastModified() + " "+ files.get(i).length());
 			writer.flush();
+			System.out.println("see if going in file");
+
 		}		
 	}
 }

@@ -1,7 +1,8 @@
 package dropbox;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import org.apache.commons.codec.binary.Base64;
+
 
 public class Chunk {
 	
@@ -50,12 +51,9 @@ public class Chunk {
 	}
 	public int getChunkSize(){
 		byte[] b = null;
-		try {
-			b = Base64.decode(info);
-		} catch (Base64DecodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			b = Base64.decodeBase64(info);
+		
 		return b.length;
 	}
 	

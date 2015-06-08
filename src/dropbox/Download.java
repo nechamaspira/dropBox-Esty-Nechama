@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.util.Base64;
+
+import org.apache.commons.codec.binary.Base64;
+
 
 public class Download extends Messages {
 
@@ -16,6 +18,8 @@ public class Download extends Messages {
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
 		writer = new PrintWriter(outStream);
+		System.out.println("went in download");
+		//System.out.println(array.toString());
 		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
 		// bytes]
 
@@ -29,14 +33,15 @@ public class Download extends Messages {
 			raf.seek(Long.parseLong(array[2]));
 			byte[] b = new byte[chunkLength];
 			raf.read(b, offset, chunkLength);
-			Base64.Encoder encoder = Base64.getEncoder();
-			byte[] encoded = encoder.encode(b);
-
+			//Base64.Encoder encoder = Base64.getEncoder();
+			byte[] encoded =Base64.encodeBase64(b);
+			
 			// send fileSize or chunkSize?
-			writer.flush();
-			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
-					+ encoded+"\n");
 			//writer.flush();
+			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
+					+ encoded);
+			writer.flush();
+			System.out.println("going to chunk");
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
