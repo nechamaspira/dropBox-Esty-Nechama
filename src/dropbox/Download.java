@@ -36,8 +36,8 @@ public class Download extends Messages {
 			raf.seek(Long.parseLong(array[2]));
 			byte[] b = new byte[chunkLength];
 			raf.read(b, offset, chunkLength);
-			//Base64.Encoder encoder = Base64.getEncoder();
-			byte[] encoded =Base64.encodeBase64(b);
+			
+			String encoded =Base64.encodeBase64String(b);
 			
 			// send fileSize or chunkSize?
 			//writer.flush();

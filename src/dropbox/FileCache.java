@@ -54,9 +54,9 @@ public class FileCache {
 		try {
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(chunk.getStart());
-			byte[] b =Base64.decodeBase64(chunk.getInfo());
-			//raf.write(chunk.getBytes());
-			raf.write(b);
+			//byte[] b =Base64.decodeBase64(chunk.getInfo());
+			raf.write(chunk.getBytes());
+			//raf.write(b);
 			raf.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -72,13 +72,13 @@ public class FileCache {
 			RandomAccessFile raf = new RandomAccessFile(file, "rw");
 			raf.read(b, start, length);
 			
-			 encoded =Base64.encodeBase64String(b);
+			// encoded =Base64.encodeBase64String(b);
 
 			raf.close();
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
-		return new Chunk(filename, encoded, start);
+		return new Chunk(filename, b, start);
 	}
 }

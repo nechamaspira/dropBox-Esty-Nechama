@@ -3,6 +3,8 @@ package dropbox;
 import java.io.File;
 import java.io.OutputStream;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class ChunkMessageClient extends Messages {
 
 	private static final String ROOT = "./";
@@ -26,7 +28,8 @@ public class ChunkMessageClient extends Messages {
 			int offset = Integer.valueOf(array[4]);
 			String filename = ROOT+"/"+fileCache.getUser()+"/"+array[1];
 			String encoded = array[5];
-			Chunk chunk = new Chunk(filename,encoded,offset);
+			byte[] b =Base64.decodeBase64(array[5]);
+			Chunk chunk = new Chunk(filename,b,offset);
 			fileCache.addChunk(chunk);
 			
 			
@@ -40,7 +43,7 @@ public class ChunkMessageClient extends Messages {
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		
 	}

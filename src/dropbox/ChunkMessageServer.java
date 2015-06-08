@@ -8,9 +8,7 @@ import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 public class ChunkMessageServer extends Messages {
 	
@@ -34,7 +32,9 @@ public class ChunkMessageServer extends Messages {
 	
 			int offset = Integer.valueOf(array[4]);
 			String filename = array[1];
-			String encoded = array[5];
+			byte[] b =Base64.decodeBase64(array[5]);
+
+			//String encoded = array[5];
 			long  lastModified = Long.parseLong(array[2]);
 			
 			if(offset==0){
@@ -46,7 +46,7 @@ public class ChunkMessageServer extends Messages {
 					}
 				}
 			}
-			Chunk chunk = new Chunk(filename,encoded,offset);
+			Chunk chunk = new Chunk(filename,b,offset);
 			fileCache.addChunk(chunk);
 			
 			

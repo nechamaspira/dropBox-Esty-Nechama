@@ -3,6 +3,7 @@ package dropbox;
 
 
 public class DropboxMain {
+	
 	public static void main(String args[]) {
 		Thread t = new Thread() {
 			public void run() {
@@ -15,7 +16,7 @@ public class DropboxMain {
 			Thread thread = new Thread() {
 				public void run() {
 
-					Client client = new Client("user1\\");
+					Client client = new Client("user1/");
 					client.startMessages();
 				}
 			};

@@ -18,7 +18,7 @@ public class Server implements ReaderListener {
 	private LinkedList<Socket> sockets;
 
 	public Server() {
-		this.fileCache = new FileCache("server\\");
+		this.fileCache = new FileCache("server/");
 		sockets = new LinkedList<Socket>();
 		this.messages = new ArrayList<Messages>();
 		messages.add(new ListMessage(this.fileCache));

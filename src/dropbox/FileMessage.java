@@ -33,8 +33,9 @@ public class FileMessage extends Messages {
 				break;
 			}
 		}
-		
-		File file = new File(array[1]);
+	
+		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
+		//Long lastMod = fileFound.lastModified();
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
 			fileCache.removeFile(fileFound.getAbsolutePath());
 			sendDownloadMessage(file);
@@ -50,7 +51,7 @@ public class FileMessage extends Messages {
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
-		while (sizeLeft >= 0) {
+		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.flush();
 				//changed
