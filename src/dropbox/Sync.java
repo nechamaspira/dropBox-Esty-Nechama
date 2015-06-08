@@ -11,7 +11,7 @@ private final int MAXCHUNKSIZE =512;
 
 	public Sync(FileCache fileCache){
 		string = "SYNC";
-		fileMessage = new FileMessage(fileCache);
+		//fileMessage = new FileMessage(fileCache);
 	}
 
 

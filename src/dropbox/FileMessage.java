@@ -17,6 +17,7 @@ public class FileMessage extends Messages {
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
 		writer = new PrintWriter(outStream);
+		System.out.println(array[1]);
 		List<File> files = fileCache.getFiles();
 		Boolean found = false;
 		File fileFound = null;

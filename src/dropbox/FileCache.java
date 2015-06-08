@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64.Encoder;
 import java.util.List;
 
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
@@ -15,7 +14,9 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 public class FileCache {
 	// this exist on the hardrive
 
-	private static final String ROOT = "dropbox/";
+	private static final String ROOT = "C:\\Users\\Nechama\\Documents\\GitHub\\dropbox\\";
+	//private static final String ROOT = "dropbox\\";
+
 	private String user;
 
 	public FileCache(String user) {

@@ -3,7 +3,6 @@ package dropbox;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,16 +20,14 @@ public class ListMessage extends Messages {
 		writer = new PrintWriter(outStream);
 		writer.println("FILES " + fileCache.getNumberFiles());
 		writer.flush();
+		
+		System.out.println(fileCache.getNumberFiles()+" files");
+		
 		List<File> files = fileCache.getFiles();
 		
 		for(int i =0; i<fileCache.getNumberFiles(); i++){
 			writer.println("FILE "+ files.get(i).getName() + " " + files.get(i).lastModified() + " "+ files.get(i).length()+"\n");
 			writer.flush();
-		}
-		
-		
-
-		
+		}		
 	}
-
 }
