@@ -1,8 +1,8 @@
 package dropbox;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,12 @@ public class Client implements ReaderListener{
 	private FileCache fileCache;
 	private List<Messages> messages;
 	private Socket socket;
+	private PrintWriter writer;
 	
 	public Client(){
 		try{
 			socket = new Socket("localhost", 2009);
+			writer = new PrintWriter(socket.getOutputStream());
 			ReaderThread t = new ReaderThread(socket, this);
 			t.start();
 		}
@@ -32,7 +34,9 @@ public class Client implements ReaderListener{
 
 	}
 	
-
+	public void startMessages(){
+	writer.println("LIST");	
+	}
 
 
 	@Override
