@@ -36,6 +36,7 @@ public class Client implements ReaderListener{
 	
 	public void startMessages(){
 	writer.println("LIST");	
+	writer.flush();
 	}
 
 

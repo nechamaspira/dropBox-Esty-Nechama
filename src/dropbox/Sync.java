@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 public class Sync extends Messages {
 	
 private final int MAXCHUNKSIZE =512;
-private FileMessage fileMessage;
+
 
 	public Sync(FileCache fileCache){
 		string = "SYNC";
@@ -28,11 +28,13 @@ private FileMessage fileMessage;
 		while(sizeLeft>0){
 			if(sizeLeft >MAXCHUNKSIZE){
 			writer.println("DOWNLOAD "+ file.getName()+ " " + offset + " " + MAXCHUNKSIZE);
+			writer.flush();
 			sizeLeft -= MAXCHUNKSIZE;
 			offset += MAXCHUNKSIZE;
 			}
 			else{
 				writer.println("DOWNLOAD "+ file.getName()+ " " + offset + " " + sizeLeft);
+				writer.flush();
 				break;
 			}
 		}

@@ -46,11 +46,13 @@ public class FileMessage extends Messages {
 			if (sizeLeft > MAXCHUNKSIZE) {
 				writer.println("DOWNLOAD " + fileFound.getName() + " " + offset
 						+ " " + MAXCHUNKSIZE);
+				writer.flush();
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
 			} else {
 				writer.println("DOWNLOAD " + fileFound.getName() + " " + offset
 						+ " " + sizeLeft);
+				writer.flush();
 				break;
 			}
 		}

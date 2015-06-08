@@ -36,6 +36,7 @@ public class Download extends Messages {
 			// send fileSize or chunkSize?
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
 					+ encoded);
+			writer.flush();
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

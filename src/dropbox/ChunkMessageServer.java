@@ -56,6 +56,7 @@ public class ChunkMessageServer extends Messages {
 				for(Socket s: sockets){
 					writer = new PrintWriter(s.getOutputStream());
 					writer.println("SYNC "+ filename + " "+lastModified + fileSize);
+					writer.flush();
 				}
 			}
 			

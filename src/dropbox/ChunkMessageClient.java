@@ -19,7 +19,7 @@ public class ChunkMessageClient extends Messages {
 
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
-		writer = new PrintWriter(outStream);
+		//writer = new PrintWriter(outStream);
 		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
 		// bytes]
 

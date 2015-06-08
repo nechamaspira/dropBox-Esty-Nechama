@@ -20,10 +20,12 @@ public class ListMessage extends Messages {
 	public void perform(OutputStream outStream, String array[]) {
 		writer = new PrintWriter(outStream);
 		writer.println("FILES " + fileCache.getNumberFiles());
+		writer.flush();
 		List<File> files = fileCache.getFiles();
 		
 		for(int i =0; i<fileCache.getNumberFiles(); i++){
 			writer.println("FILE "+ files.get(i).getName() + " " + files.get(i).lastModified() + " "+ files.get(i).length()+"\n");
+			writer.flush();
 		}
 		
 		
