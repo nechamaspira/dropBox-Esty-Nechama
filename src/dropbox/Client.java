@@ -12,21 +12,26 @@ public class Client implements ReaderListener {
 	private List<Messages> messages;
 	private Socket socket;
 	private PrintWriter writer;
+	private ArrayList<String> serverString;
 
 	public Client(String user) {
 		try {
 			socket = new Socket("localhost", 2009);
 			writer = new PrintWriter(socket.getOutputStream());
+		
 			ReaderThread t = new ReaderThread(socket, this);
 			t.start();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 		fileCache = new FileCache(user);
+		serverString = new ArrayList<String>();
 		messages = new ArrayList<Messages>();
 		messages.add(new Sync(fileCache));
 		messages.add(new ChunkMessageClient(fileCache));
-		messages.add(new FileMessage(fileCache));
+	//	messages.add(new FileMessage(fileCache));
+		messages.add(new FileMessage(this));
+
 		messages.add(new Files());
 
 	}
@@ -65,5 +70,14 @@ public class Client implements ReaderListener {
 	public void onCloseSocket(Socket socket) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public FileCache getFileCache() {
+		return fileCache;
+	}
+
+	public void add(String string) {
+		serverString.add(string) ;
+		
 	}
 }

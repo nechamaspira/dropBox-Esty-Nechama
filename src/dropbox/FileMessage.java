@@ -10,11 +10,12 @@ public class FileMessage extends Messages {
 	
 	public static final String ROOT ="./";
 	private final int MAXCHUNKSIZE = 512;
+	private Client client;
 
-
-	public FileMessage(FileCache fileCache) {
+	public FileMessage(Client client) {
+		this.client=client;
 		string = "FILE";
-		this.fileCache = fileCache;
+		this.fileCache = client.getFileCache();
 	}
 
 	@Override
@@ -23,6 +24,7 @@ public class FileMessage extends Messages {
 
 		writer = new PrintWriter(outStream);
 		System.out.println(array[1]);
+		client.add(array[1]);
 		List<File> files = fileCache.getFiles();
 		Boolean found = false;
 		File fileFound = null;
@@ -40,7 +42,7 @@ public class FileMessage extends Messages {
 
 		
 		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
-		System.out.println(array[1]);
+		
 
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
 			System.out.println("found and date diff");
