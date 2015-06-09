@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +46,8 @@ public class ChunkMessageServer extends Messages {
 				}
 			}
 			File file = new File(ROOT + "/" + fileCache.getUser() + "/" + array[1]);
-			Chunk chunk = new Chunk(file.getAbsolutePath(), b, offset);
+		//	Chunk chunk = new Chunk(file.getAbsolutePath(), b, offset);
+			Chunk chunk = new Chunk(file.getName(), b, offset);
 			fileCache.addChunk(chunk);
 
 			
