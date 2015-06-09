@@ -9,9 +9,6 @@ import java.util.Arrays;
 
 import java.util.List;
 
-
-import org.apache.commons.codec.binary.Base64;
-
 public class FileCache {
 	// this exist on the hardrive
 
@@ -49,8 +46,10 @@ public class FileCache {
 	}
 
 	public void addChunk(Chunk chunk) {// array of bites
-		File file = new File(chunk.getFilename());
-		System.out.println("adding chunk");
+		//File file = new File(chunk.getFilename());
+		File file = new File(ROOT + "/" + user + "/"+ chunk.getFilename());
+	
+		System.out.println("adding chunk" + chunk.getFilename());
 		RandomAccessFile raf;
 		try {
 			raf = new RandomAccessFile(file, "rw");
@@ -59,6 +58,7 @@ public class FileCache {
 			raf.write(chunk.getBytes());
 			//raf.write(b);
 			raf.close();
+			System.out.println("wrote file");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -68,7 +68,7 @@ public class FileCache {
 
 	public Chunk getChunk(File file, String filename, int start, int length) {
 		byte[] b = null;
-		String encoded = null ;
+		//String encoded = null ;
 		try {
 			RandomAccessFile raf = new RandomAccessFile(file, "rw");
 			raf.read(b, start, length);

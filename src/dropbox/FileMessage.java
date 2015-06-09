@@ -70,7 +70,11 @@ public class FileMessage extends Messages {
 				ArrayList<Long> serverArrayDate = client.getServerStringDate();
 				found =false;
 				for (int i = 0; i < files.size(); i++) {
+<<<<<<< HEAD
 					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
+=======
+					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+file.getName());
+>>>>>>> origin/master
 
 					for (int j = 0; j < serverArray.size(); j++) {
 						String clientName = files.get(i).getName();
@@ -115,8 +119,6 @@ public class FileMessage extends Messages {
 	}
 	
 	public void sendUploadMessage(File file){
-
-		System.out.println("upload file " +file.exists());
 		int fileSize = (int) file.length();
 		int sizeLeft = fileSize;
 		int offset = 0;
@@ -136,7 +138,6 @@ public class FileMessage extends Messages {
 							+ encoded);
 					writer.flush();
 					System.out.println("going in chunk message server");
-
 					
 					sizeLeft -= MAXCHUNKSIZE;
 					offset += MAXCHUNKSIZE;
