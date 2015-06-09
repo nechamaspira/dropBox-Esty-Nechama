@@ -12,8 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class FileMessage extends Messages {
 
-	public static final String ROOT = "./";
-	private final int MAXCHUNKSIZE = 512;
+	public final int MAXCHUNKSIZE = 512;
 	private Client client;
 
 	public FileMessage(Client client) {
@@ -24,15 +23,12 @@ public class FileMessage extends Messages {
 
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
-		System.out.println("went in to filemessages");
 
 		writer = new PrintWriter(outStream);
-		System.out.println(array[1]);
 		List<File> files = fileCache.getFiles();
 		Boolean found = false;
 		File fileFound = null;
 		for (int i = 0; i < files.size(); i++) {
-			// /change from getAbsolute path
 			if (files.get(i).getName().equalsIgnoreCase(array[1])) {
 				found = true;
 				fileFound = files.get(i);
@@ -40,14 +36,12 @@ public class FileMessage extends Messages {
 			}
 		}
 
-		File file = new File(ROOT + "/" + "server" + "/" + array[1]);
+		File file = new File(ChunkMessageClient.ROOT + "/" + "server" + "/" + array[1]);
 
 		if (found && fileFound.lastModified() < Long.parseLong(array[2])) {
-			System.out.println("found and date diff");
 			fileCache.removeFile(fileFound.getAbsolutePath());
 			sendDownloadMessage(file);
 		} else if (!found) {
-			System.out.println("not found");
 			// download
 			sendDownloadMessage(file);
 		}
@@ -64,7 +58,8 @@ public class FileMessage extends Messages {
 
 			for (int i = 0; i < files.size(); i++) {
 				found = false;
-				File theFile = new File(ROOT + "/" + fileCache.getUser() + "/" + files.get(i).getName());
+				File theFile = new File(ChunkMessageClient.ROOT + "/" + fileCache.getUser() + "/"
+						+ files.get(i).getName());
 
 				for (int j = 0; j < serverArray.size(); j++) {
 					String clientName = files.get(i).getName();
@@ -98,13 +93,14 @@ public class FileMessage extends Messages {
 				writer.flush();
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
+
 			} else {
 				writer.println("DOWNLOAD " + file.getName() + " " + offset + " " + sizeLeft);
 				writer.flush();
-				System.out.println("see if going in download");
 				break;
 			}
 		}
+		System.out.println("DOWNLOAD " + file.getName());
 
 	}
 
@@ -113,6 +109,7 @@ public class FileMessage extends Messages {
 		int sizeLeft = fileSize;
 		int offset = 0;
 		RandomAccessFile raf;
+		String encoded = null;
 
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
@@ -123,16 +120,14 @@ public class FileMessage extends Messages {
 					byte[] b = new byte[MAXCHUNKSIZE];
 					raf.read(b, 0, MAXCHUNKSIZE);
 
-					String encoded = Base64.encodeBase64String(b);
+					encoded = Base64.encodeBase64String(b);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
 							+ offset + " " + encoded);
 					writer.flush();
-					System.out.println("going in chunk message server");
 
 					sizeLeft -= MAXCHUNKSIZE;
 					System.out.println("size left" + sizeLeft);
 					offset += MAXCHUNKSIZE;
-					System.out.println("offset" + offset);
 
 				} catch (NumberFormatException | IOException e) {
 					// TODO Auto-generated catch block
@@ -145,11 +140,11 @@ public class FileMessage extends Messages {
 					byte[] b = new byte[MAXCHUNKSIZE];
 					raf.read(b, 0, sizeLeft);
 
-					String encoded = Base64.encodeBase64String(b);
+					encoded = Base64.encodeBase64String(b);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
 							+ offset + " " + encoded);
 					writer.flush();
-					System.out.println("going in chunk message server");
+					// System.out.println("going in chunk message server");
 					break;
 
 				} catch (NumberFormatException | IOException e) {
@@ -159,6 +154,8 @@ public class FileMessage extends Messages {
 
 			}
 		}
+		System.out.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " " + offset
+				+ " " + encoded);
 
 	}
 }

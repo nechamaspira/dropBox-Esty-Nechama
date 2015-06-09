@@ -7,12 +7,8 @@ public class Chunk {
 	private byte bytes[];
 	private int start;
 
-	// private String info;
-
-	// public Chunk(String filename,String info, int position){
 	public Chunk(String filename, byte[] bytes, int position) {
 
-		// this.info=info;
 		this.filename = filename;
 		this.bytes = bytes;
 		this.start = position;
@@ -43,19 +39,7 @@ public class Chunk {
 	}
 
 	public int getChunkSize() {
-		/*
-		 * byte[] b = null;
-		 * 
-		 * b = Base64.decodeBase64(info);
-		 * 
-		 * return b.length;
-		 */
 		return bytes.length;
 
-		/*
-		 * public int getChunkSize() { byte[] b = null; b =
-		 * Base64.decodeBase64(info); return b.length;
-		 */
 	}
-
 }

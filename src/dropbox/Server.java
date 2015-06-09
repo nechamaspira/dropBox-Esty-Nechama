@@ -28,7 +28,7 @@ public class Server implements ReaderListener {
 
 		try {
 
-			this.serverSocket = new ServerSocket(2009);
+			this.serverSocket = new ServerSocket(8181);
 			Socket socket;
 			while (true) {
 				socket = serverSocket.accept();

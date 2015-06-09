@@ -36,7 +36,7 @@ public class Client implements ReaderListener {
 
 	public Client(String user) {
 		try {
-			socket = new Socket("localhost", 2009);
+			socket = new Socket("localhost", 8181);
 			writer = new PrintWriter(socket.getOutputStream());
 		
 			ReaderThread t = new ReaderThread(socket, this);
@@ -57,8 +57,9 @@ public class Client implements ReaderListener {
 
 	}
 
-	public void startMessages() {
-		writer.println("LIST");
+	public void startMessages(String user) {
+		System.out.println(user+ "LIST ");
+		writer.println("LIST ");
 		writer.flush();
 	}
 

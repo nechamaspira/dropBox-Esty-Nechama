@@ -12,8 +12,7 @@ import java.util.List;
 public class FileCache {
 	// this exist on the hardrive
 
-	public static final  String ROOT = "./";
-	//private static final String ROOT = "dropbox\\";
+	public static final String ROOT = "./";
 
 	private String user;
 
@@ -22,12 +21,12 @@ public class FileCache {
 	}
 
 	public FileCache(String user) {
-		this.user= user;
-		new File(ROOT+this.user).mkdir();
+		this.user = user;
+		new File(ROOT + this.user).mkdir();
 	}
 
 	public List<File> getFiles() {
-		File folder = new File(ROOT+"/"+user);
+		File folder = new File(ROOT + "/" + user);
 
 		File[] listOfFiles = folder.listFiles();
 
@@ -35,49 +34,41 @@ public class FileCache {
 		return array;
 
 	}
-	public void removeFile(String filename){
+
+	public void removeFile(String filename) {
 		File file = new File(filename);
 		file.delete();
-		System.out.println("removed file");
 	}
-	
-	public int getNumberFiles(){
+
+	public int getNumberFiles() {
 		return getFiles().size();
 	}
 
 	public void addChunk(Chunk chunk) {// array of bites
 		File file = new File(chunk.getFilename());
-		//File file = new File(ROOT + "/" + user + "/"+ chunk.getFilename());
-	
-		System.out.println("adding chunk" + chunk.getFilename());
+
 		RandomAccessFile raf;
 		try {
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(chunk.getStart());
-			//byte[] b =Base64.decodeBase64(chunk.getInfo());
 			raf.write(chunk.getBytes());
-			//raf.write(b);
 			raf.close();
-			System.out.println("wrote file");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public Chunk getChunk(File file, String filename, int start, int length) {
 		byte[] b = null;
-		//String encoded = null ;
 		try {
 			RandomAccessFile raf = new RandomAccessFile(file, "rw");
 			raf.read(b, start, length);
-			
-			// encoded =Base64.encodeBase64String(b);
 
 			raf.close();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 		return new Chunk(filename, b, start);

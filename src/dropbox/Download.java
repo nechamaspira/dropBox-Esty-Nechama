@@ -8,45 +8,37 @@ import java.io.RandomAccessFile;
 
 import org.apache.commons.codec.binary.Base64;
 
-
 public class Download extends Messages {
 
 	public static final String ROOT = "./";
-	public static final int MAXCHUNKSIZE  =512;
+	public static final int MAXCHUNKSIZE = 512;
 
 	public Download(FileCache cache) {
-		this.fileCache=cache;
+		this.fileCache = cache;
 		string = "DOWNLOAD";
 	}
 
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
 		writer = new PrintWriter(outStream);
-		System.out.println("went in download");
-		//System.out.println(array.toString());
-		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
-		// bytes]
 
-		// does this find the file that we sent in the name for?
-		File file = new File(ROOT+"/"+fileCache.getUser()+"/"+array[1]);
+		File file = new File(ROOT + "/" + fileCache.getUser() + "/" + array[1]);
 		int offset = Integer.parseInt(array[2]);
 		int chunkLength = Integer.parseInt(array[3]);
 		RandomAccessFile raf;
 		try {
-			System.out.println("going to raf");
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(Long.parseLong(array[2]));
 			byte[] b = new byte[MAXCHUNKSIZE];
 			raf.read(b, 0, chunkLength);
-			
-			String encoded =Base64.encodeBase64String(b);
-			
-			// send fileSize or chunkSize?
+
+			String encoded = Base64.encodeBase64String(b);
+
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
 					+ encoded);
-			System.out.println("semt Chunk");
 			writer.flush();
-			System.out.println("going to chunk");
+			System.out.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset
+					+ " " + encoded);
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
