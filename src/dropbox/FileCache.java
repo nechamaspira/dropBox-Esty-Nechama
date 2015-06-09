@@ -46,8 +46,8 @@ public class FileCache {
 	}
 
 	public void addChunk(Chunk chunk) {// array of bites
-		//File file = new File(chunk.getFilename());
-		File file = new File(ROOT + "/" + user + "/"+ chunk.getFilename());
+		File file = new File(chunk.getFilename());
+		//File file = new File(ROOT + "/" + user + "/"+ chunk.getFilename());
 	
 		System.out.println("adding chunk" + chunk.getFilename());
 		RandomAccessFile raf;

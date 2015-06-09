@@ -40,9 +40,6 @@ public class FileMessage extends Messages {
 				break;
 			}
 		}
-	
-		//File file = new File(ROOT+"/"+"server"+"/"+array[1]);
-		//Long lastMod = fileFound.lastModified();
 
 		
 		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
@@ -68,11 +65,11 @@ public class FileMessage extends Messages {
 			
 				ArrayList<String> serverArray = client.getServerString();
 				ArrayList<Long> serverArrayDate = client.getServerStringDate();
-				found =false;
+				
 				for (int i = 0; i < files.size(); i++) {
-
+					found =false;
 					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
-
+					System.out.println( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
 
 					for (int j = 0; j < serverArray.size(); j++) {
 						String clientName = files.get(i).getName();
@@ -80,15 +77,17 @@ public class FileMessage extends Messages {
 						if ((clientName.equalsIgnoreCase(serverName)) && (files.get(i).lastModified() == serverArrayDate.get(j))) {
 							found=true;
 							theFile = files.get(i);
+							System.out.println(found + " file "+ clientName);
+
 							break;
 						}
 					}
 					if(!found){
 						sendUploadMessage(theFile);
-					}
 				}
+					System.out.println(found);
 			}
-
+		}
 		
 	}
 

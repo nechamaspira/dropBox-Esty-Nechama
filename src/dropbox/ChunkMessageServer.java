@@ -46,8 +46,8 @@ public class ChunkMessageServer extends Messages {
 				}
 			}
 			File file = new File(ROOT + "/" + fileCache.getUser() + "/" + array[1]);
-		//	Chunk chunk = new Chunk(file.getAbsolutePath(), b, offset);
-			Chunk chunk = new Chunk(file.getName(), b, offset);
+			Chunk chunk = new Chunk(file.getAbsolutePath(), b, offset);
+		//	Chunk chunk = new Chunk(file.getName(), b, offset);
 			fileCache.addChunk(chunk);
 
 			
