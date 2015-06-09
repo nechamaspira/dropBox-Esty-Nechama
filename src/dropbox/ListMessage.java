@@ -8,7 +8,6 @@ import java.util.List;
 
 
 public class ListMessage extends Messages {
-	private CheckUpload checkUpload;
 
 	public ListMessage(FileCache fileCache){
 		string = "LIST";
@@ -27,7 +26,6 @@ public class ListMessage extends Messages {
 		List<File> files = fileCache.getFiles();
 		
 		
-	//	checkUpload = new CheckUpload();
 		for(int i =0; i<fileCache.getNumberFiles(); i++){
 			//changed from get path
 			writer.println("FILE "+ files.get(i).getName() + " " + files.get(i).lastModified() + " "+ files.get(i).length());

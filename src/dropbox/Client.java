@@ -1,5 +1,6 @@
 package dropbox;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -13,6 +14,25 @@ public class Client implements ReaderListener {
 	private Socket socket;
 	private PrintWriter writer;
 	private ArrayList<String> serverString;
+	private ArrayList<Long> serverStringDate;
+
+
+	public List<Messages> getMessages() {
+		return messages;
+	}
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public PrintWriter getWriter() {
+		return writer;
+	}
+
+	public int getListCount() {
+		return listCount;
+	}
+	private int listCount;
 
 	public Client(String user) {
 		try {
@@ -26,13 +46,14 @@ public class Client implements ReaderListener {
 		}
 		fileCache = new FileCache(user);
 		serverString = new ArrayList<String>();
+		serverStringDate = new ArrayList<Long>();
 		messages = new ArrayList<Messages>();
 		messages.add(new Sync(fileCache));
 		messages.add(new ChunkMessageClient(fileCache));
-	//	messages.add(new FileMessage(fileCache));
 		messages.add(new FileMessage(this));
-
-		messages.add(new Files());
+		messages.add(new Files(this));
+		
+		listCount=0;
 
 	}
 
@@ -76,8 +97,23 @@ public class Client implements ReaderListener {
 		return fileCache;
 	}
 
-	public void add(String string) {
+	public void setListCount(int count){
+		listCount=count;
+	}
+	public void add(String string, long date) {
 		serverString.add(string) ;
+		serverStringDate.add(date);
 		
+	}
+	
+	public boolean isSizeEqual(){
+		return serverString.size() == listCount;
+	}
+	public ArrayList<String> getServerString() {
+		return serverString;
+	}
+
+	public ArrayList<Long> getServerStringDate() {
+		return serverStringDate;
 	}
 }

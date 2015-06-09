@@ -41,6 +41,7 @@ public class FileCache {
 	public void removeFile(String filename){
 		File file = new File(filename);
 		file.delete();
+		System.out.println("removed file");
 	}
 	
 	public int getNumberFiles(){

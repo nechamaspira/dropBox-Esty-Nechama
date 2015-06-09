@@ -8,17 +8,18 @@ import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.commons.codec.binary.Base64;
 
 public class ChunkMessageServer extends Messages {
-	
+	private static final String ROOT = "./";
 	private LinkedList<Socket> sockets;
 
-	public ChunkMessageServer(FileCache fileCache,LinkedList<Socket> sockets) {
+	public ChunkMessageServer(FileCache fileCache, LinkedList<Socket> sockets) {
 		string = "CHUNK";
-		this.fileCache=fileCache;
-		this.sockets=sockets;
-		
+		this.fileCache = fileCache;
+		this.sockets = sockets;
+
 	}
 
 	@Override
@@ -27,39 +28,48 @@ public class ChunkMessageServer extends Messages {
 		// CHUNK [filename] [last modified] [filesize] [offset] [base64 encoded
 		// bytes]
 
-	
 		try {
-	
+
 			int offset = Integer.valueOf(array[4]);
 			String filename = array[1];
-			byte[] b =Base64.decodeBase64(array[5]);
+			byte[] b = Base64.decodeBase64(array[5]);
 
-			//String encoded = array[5];
-			long  lastModified = Long.parseLong(array[2]);
-			
-			if(offset==0){
+			// String encoded = array[5];
+			long lastModified = Long.parseLong(array[2]);
+
+			if (offset == 0) {
 				List<File> files = fileCache.getFiles();
-				for(int i=0; i<filename.length(); i++){
-					if(files.get(i).getAbsolutePath().equalsIgnoreCase(filename)){
+				for (int i = 0; i < files.size(); i++) {
+					if (files.get(i).getName().equalsIgnoreCase(filename)) {
 						fileCache.removeFile(filename);
 						break;
 					}
 				}
 			}
-			Chunk chunk = new Chunk(filename,b,offset);
+			File file = new File(ROOT + "/" + fileCache.getUser() + "/" + array[1]);
+			Chunk chunk = new Chunk(file.getAbsolutePath(), b, offset);
 			fileCache.addChunk(chunk);
+
 			
+			//change the adte when fully uploaded
+			if ((offset + chunk.getChunkSize()) == file.length()) {
+				System.out.println("date modified in upload " + Long.parseLong(array[2]));
+				file.setLastModified(Long.parseLong(array[2]));
+			}
+
 			
+			//send sync message when all the last chunk is uploaded
 			int fileSize = Integer.parseInt(array[3]);
 			int chunkSize = chunk.getChunkSize();
-			if((offset+chunkSize) == fileSize){
-				for(Socket s: sockets){
+			if ((offset + chunkSize) == fileSize) {
+				for (Socket s : sockets) {
 					writer = new PrintWriter(s.getOutputStream());
+					writer.println("SYNC " + filename + " " + lastModified + fileSize);
 					writer.flush();
-					writer.println("SYNC "+ filename + " "+lastModified + fileSize+"\n");
+					System.out.println("send sync message");
 				}
 			}
-			
+
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
