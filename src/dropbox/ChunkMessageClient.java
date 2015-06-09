@@ -27,7 +27,7 @@ public class ChunkMessageClient extends Messages {
 			//do we need to add this file to our fileCache?
 			int offset = Integer.valueOf(array[4]);
 			String filename = ROOT+"/"+fileCache.getUser()+"/"+array[1];
-			String encoded = array[5];
+			
 			byte[] b =Base64.decodeBase64(array[5]);
 			Chunk chunk = new Chunk(filename,b,offset);
 			fileCache.addChunk(chunk);
