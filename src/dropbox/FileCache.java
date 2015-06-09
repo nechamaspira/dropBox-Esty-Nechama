@@ -30,7 +30,7 @@ public class FileCache {
 	}
 
 	public List<File> getFiles() {
-		File folder = new File(ROOT+user);
+		File folder = new File(ROOT+"/"+user);
 
 		File[] listOfFiles = folder.listFiles();
 

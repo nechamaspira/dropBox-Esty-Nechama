@@ -1,0 +1,5 @@
+testing out server file
+2 kinds of process scheduler:
+Preemptive – the operating system can interrupt a process at any time. So can interrupt a process at any time. If playing candy crush and get a phone call- that interrupts that current process. Or if press home button
+Nonpreemtive – cannot preempt it. Cannot interrupt processes. No operating system works that way. = program themselves dictate when they can be interrupted. Have this when:
+1.	If driving a car and have computers in car that handle 

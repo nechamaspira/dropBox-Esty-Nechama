@@ -60,23 +60,27 @@ public class FileMessage extends Messages {
 		
 		
 		//upload
+
 		files =fileCache.getFiles();
 		
 		client.add(array[1], file.lastModified() );
 		if(client.isSizeEqual()){
+			
 				ArrayList<String> serverArray = client.getServerString();
 				ArrayList<Long> serverArrayDate = client.getServerStringDate();
 				found =false;
 				for (int i = 0; i < files.size(); i++) {
+					File theFile =new File( ROOT+"/"+"client"+"/"+file.getName());
+
 					for (int j = 0; j < serverArray.size(); j++) {
 						if ((files.get(i).getName().equalsIgnoreCase(serverArray.get(j))) && (files.get(i).lastModified() == serverArrayDate.get(j))) {
 							found=true;
-							fileFound = files.get(i);
+							theFile = files.get(i);
 							break;
 						}
 					}
 					if(!found){
-						sendUploadMessage(fileFound);
+						sendUploadMessage(theFile);
 					}
 				}
 			}
@@ -85,6 +89,7 @@ public class FileMessage extends Messages {
 	}
 
 	public void sendDownloadMessage(File file) {
+	
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
@@ -108,6 +113,7 @@ public class FileMessage extends Messages {
 	}
 	
 	public void sendUploadMessage(File file){
+
 		System.out.println("upload file " +file.exists());
 		int fileSize = (int) file.length();
 		int sizeLeft = fileSize;
