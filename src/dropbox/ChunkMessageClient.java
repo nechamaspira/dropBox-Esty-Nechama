@@ -29,7 +29,7 @@ public class ChunkMessageClient extends Messages {
 
 			int fileSize = Integer.parseInt(array[3]);
 			int chunkSize = chunk.getChunkSize();
-			if ((offset + chunkSize) == fileSize) {
+			if ((offset + chunkSize) >= fileSize) {
 				file.setLastModified(Long.parseLong(array[2]));
 			}
 

@@ -30,9 +30,13 @@ public class Download extends Messages {
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(Long.parseLong(array[2]));
 			byte[] b = new byte[MAXCHUNKSIZE];
-			raf.read(b, 0, chunkLength);
+			int numRead = raf.read(b, 0, chunkLength);
 
-			String encoded = Base64.encodeBase64String(b);
+			byte[] b2 = new byte[numRead];
+			for(int i=0; i<b2.length; i++){
+				b2[i] = b[i];
+			}
+			String encoded = Base64.encodeBase64String(b2);
 
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
 					+ encoded);

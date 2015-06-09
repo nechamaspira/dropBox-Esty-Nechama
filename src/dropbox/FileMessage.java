@@ -118,7 +118,7 @@ public class FileMessage extends Messages {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
 					byte[] b = new byte[MAXCHUNKSIZE];
-					raf.read(b, 0, MAXCHUNKSIZE);
+					int numRead = raf.read(b, 0, MAXCHUNKSIZE);
 
 					encoded = Base64.encodeBase64String(b);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
@@ -138,9 +138,12 @@ public class FileMessage extends Messages {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
 					byte[] b = new byte[MAXCHUNKSIZE];
-					raf.read(b, 0, sizeLeft);
-
-					encoded = Base64.encodeBase64String(b);
+					int numRead = raf.read(b, 0, sizeLeft);
+					byte[] b2 = new byte[numRead];
+					for(int i=0; i<b2.length; i++){
+						b2[i] = b[i];
+					}
+					encoded = Base64.encodeBase64String(b2);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
 							+ offset + " " + encoded);
 					writer.flush();
