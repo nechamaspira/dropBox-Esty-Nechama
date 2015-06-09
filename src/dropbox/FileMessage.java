@@ -12,13 +12,12 @@ import org.apache.commons.codec.binary.Base64;
 
 public class FileMessage extends Messages {
 
-	
-	public static final String ROOT ="./";
+	public static final String ROOT = "./";
 	private final int MAXCHUNKSIZE = 512;
 	private Client client;
 
 	public FileMessage(Client client) {
-		this.client=client;
+		this.client = client;
 		string = "FILE";
 		this.fileCache = client.getFileCache();
 	}
@@ -33,7 +32,7 @@ public class FileMessage extends Messages {
 		Boolean found = false;
 		File fileFound = null;
 		for (int i = 0; i < files.size(); i++) {
-			///change from getAbsolute path
+			// /change from getAbsolute path
 			if (files.get(i).getName().equalsIgnoreCase(array[1])) {
 				found = true;
 				fileFound = files.get(i);
@@ -41,9 +40,7 @@ public class FileMessage extends Messages {
 			}
 		}
 
-		
-		File file = new File(ROOT+"/"+"server"+"/"+array[1]);
-		
+		File file = new File(ROOT + "/" + "server" + "/" + array[1]);
 
 		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
 			System.out.println("found and date diff");
@@ -54,68 +51,64 @@ public class FileMessage extends Messages {
 			// download
 			sendDownloadMessage(file);
 		}
-		
-		
-		//upload
 
-		files =fileCache.getFiles();
-		
-		client.add(array[1], file.lastModified() );
-		if(client.isSizeEqual()){
-			
-				ArrayList<String> serverArray = client.getServerString();
-				ArrayList<Long> serverArrayDate = client.getServerStringDate();
-				
-				for (int i = 0; i < files.size(); i++) {
-					found =false;
-					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
-					System.out.println( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
+		// upload
 
-					for (int j = 0; j < serverArray.size(); j++) {
-						String clientName = files.get(i).getName();
-						String serverName =serverArray.get(j);
-						if ((clientName.equalsIgnoreCase(serverName)) && (files.get(i).lastModified() == serverArrayDate.get(j))) {
-							found=true;
-							theFile = files.get(i);
-							System.out.println(found + " file "+ clientName);
+		files = fileCache.getFiles();
 
-							break;
-						}
+		client.add(array[1], file.lastModified());
+		if (client.isSizeEqual()) {
+
+			ArrayList<String> serverArray = client.getServerString();
+			ArrayList<Long> serverArrayDate = client.getServerStringDate();
+
+			for (int i = 0; i < files.size(); i++) {
+				found = false;
+				File theFile = new File(ROOT + "/" + fileCache.getUser() + "/" + files.get(i).getName());
+
+				for (int j = 0; j < serverArray.size(); j++) {
+					String clientName = files.get(i).getName();
+					String serverName = serverArray.get(j);
+					if ((clientName.equalsIgnoreCase(serverName))
+							&& (files.get(i).lastModified() == serverArrayDate.get(j))) {
+						found = true;
+						theFile = files.get(i);
+						break;
 					}
-					if(!found){
-						sendUploadMessage(theFile);
 				}
-					System.out.println(found);
+				if (!found) {
+					sendUploadMessage(theFile);
+				}
+
 			}
 		}
-		
+
 	}
 
 	public void sendDownloadMessage(File file) {
-	
+
 		long fileSize = file.length();
 		long sizeLeft = fileSize;
 		long offset = 0;
 
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
-				
-				writer.println("DOWNLOAD " + file.getName() + " " + offset
-						+ " " + MAXCHUNKSIZE);
+
+				writer.println("DOWNLOAD " + file.getName() + " " + offset + " " + MAXCHUNKSIZE);
 				writer.flush();
 				sizeLeft -= MAXCHUNKSIZE;
 				offset += MAXCHUNKSIZE;
 			} else {
-				writer.println("DOWNLOAD " + file.getName() + " " + offset+ " " + sizeLeft);
+				writer.println("DOWNLOAD " + file.getName() + " " + offset + " " + sizeLeft);
 				writer.flush();
 				System.out.println("see if going in download");
 				break;
 			}
 		}
-		
+
 	}
-	
-	public void sendUploadMessage(File file){
+
+	public void sendUploadMessage(File file) {
 		int fileSize = (int) file.length();
 		int sizeLeft = fileSize;
 		int offset = 0;
@@ -123,49 +116,49 @@ public class FileMessage extends Messages {
 
 		while (sizeLeft > 0) {
 			if (sizeLeft > MAXCHUNKSIZE) {
-				
+
 				try {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
-					byte[] b = new byte[MAXCHUNKSIZE];
+					byte[] b = new byte[(int)file.length()];
 					raf.read(b, offset, MAXCHUNKSIZE);
-					
-					String encoded =Base64.encodeBase64String(b);
-					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " " + offset + " "
-							+ encoded);
+
+					String encoded = Base64.encodeBase64String(b);
+					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
+							+ offset + " " + encoded);
 					writer.flush();
 					System.out.println("going in chunk message server");
-					
+
 					sizeLeft -= MAXCHUNKSIZE;
+					System.out.println("size left" + sizeLeft);
 					offset += MAXCHUNKSIZE;
-					
+					System.out.println("offset" + offset);
+
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				 catch (NumberFormatException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 			} else {
 				try {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
-					byte[] b = new byte[sizeLeft];
+					byte[] b = new byte[(int)file.length()];
 					raf.read(b, offset, sizeLeft);
-					
-					String encoded =Base64.encodeBase64String(b);
-					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " " + offset + " "
-							+ encoded);
+
+					String encoded = Base64.encodeBase64String(b);
+					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
+							+ offset + " " + encoded);
 					writer.flush();
 					System.out.println("going in chunk message server");
 					break;
-					
+
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				 catch (NumberFormatException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			
+
 			}
 		}
-	
 
-}}
+	}
+}

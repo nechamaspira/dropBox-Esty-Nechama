@@ -27,16 +27,14 @@ private final int MAXCHUNKSIZE =512;
 		long offset = 0;
 		while(sizeLeft>0){
 			if(sizeLeft >MAXCHUNKSIZE){
-				writer.flush();
-			writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + MAXCHUNKSIZE+"\n");
-		//	writer.flush();
+			writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + MAXCHUNKSIZE);
+			writer.flush();
 			sizeLeft -= MAXCHUNKSIZE;
 			offset += MAXCHUNKSIZE;
 			}
 			else{
+				writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + sizeLeft);
 				writer.flush();
-				writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + sizeLeft+"\n");
-				//writer.flush();
 				break;
 			}
 		}

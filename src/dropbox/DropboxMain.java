@@ -23,6 +23,15 @@ public class DropboxMain {
 
 			thread.start();
 	
+
+			Thread thread2 = new Thread() {
+				public void run() {
+
+					Client client = new Client("user2/");
+				}
+			};
+
+			thread2.start();
 	}
 
 }

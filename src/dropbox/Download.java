@@ -32,9 +32,10 @@ public class Download extends Messages {
 		int chunkLength = Integer.parseInt(array[3]);
 		RandomAccessFile raf;
 		try {
+			System.out.println("going to raf");
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(Long.parseLong(array[2]));
-			byte[] b = new byte[chunkLength];
+			byte[] b = new byte[(int)file.length()];
 			raf.read(b, offset, chunkLength);
 			
 			String encoded =Base64.encodeBase64String(b);
@@ -42,6 +43,7 @@ public class Download extends Messages {
 			// send fileSize or chunkSize?
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "
 					+ encoded);
+			System.out.println("semt Chunk");
 			writer.flush();
 			System.out.println("going to chunk");
 		} catch (NumberFormatException | IOException e) {
