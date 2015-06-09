@@ -70,11 +70,9 @@ public class FileMessage extends Messages {
 				ArrayList<Long> serverArrayDate = client.getServerStringDate();
 				found =false;
 				for (int i = 0; i < files.size(); i++) {
-<<<<<<< HEAD
+
 					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+files.get(i).getName());
-=======
-					File theFile =new File( ROOT+"/"+fileCache.getUser()+"/"+file.getName());
->>>>>>> origin/master
+
 
 					for (int j = 0; j < serverArray.size(); j++) {
 						String clientName = files.get(i).getName();
