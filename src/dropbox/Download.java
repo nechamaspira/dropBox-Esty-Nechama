@@ -11,7 +11,8 @@ import org.apache.commons.codec.binary.Base64;
 
 public class Download extends Messages {
 
-	private static final String ROOT = "./";
+	public static final String ROOT = "./";
+	public static final int MAXCHUNKSIZE  =512;
 
 	public Download(FileCache cache) {
 		this.fileCache=cache;
@@ -35,8 +36,8 @@ public class Download extends Messages {
 			System.out.println("going to raf");
 			raf = new RandomAccessFile(file, "rw");
 			raf.seek(Long.parseLong(array[2]));
-			byte[] b = new byte[(int)file.length()];
-			raf.read(b, offset, chunkLength);
+			byte[] b = new byte[MAXCHUNKSIZE];
+			raf.read(b, 0, chunkLength);
 			
 			String encoded =Base64.encodeBase64String(b);
 			

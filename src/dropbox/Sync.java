@@ -18,6 +18,7 @@ private final int MAXCHUNKSIZE =512;
 	@Override
 	public void perform(OutputStream outStream, String[] array) {
 		writer = new PrintWriter(outStream);
+		
 		//SYNC [filename] [last modified] [filesize]
 		
 		//download filename offset chunksize
@@ -27,13 +28,13 @@ private final int MAXCHUNKSIZE =512;
 		long offset = 0;
 		while(sizeLeft>0){
 			if(sizeLeft >MAXCHUNKSIZE){
-			writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + MAXCHUNKSIZE);
+			writer.println("DOWNLOAD "+ file.getName()+ " " + offset + " " + MAXCHUNKSIZE);
 			writer.flush();
 			sizeLeft -= MAXCHUNKSIZE;
 			offset += MAXCHUNKSIZE;
 			}
 			else{
-				writer.println("DOWNLOAD "+ file.getAbsolutePath()+ " " + offset + " " + sizeLeft);
+				writer.println("DOWNLOAD "+ file.getName()+ " " + offset + " " + sizeLeft);
 				writer.flush();
 				break;
 			}

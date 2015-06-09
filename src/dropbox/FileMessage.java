@@ -42,7 +42,7 @@ public class FileMessage extends Messages {
 
 		File file = new File(ROOT + "/" + "server" + "/" + array[1]);
 
-		if (found && fileFound.lastModified() != Long.parseLong(array[2])) {
+		if (found && fileFound.lastModified() < Long.parseLong(array[2])) {
 			System.out.println("found and date diff");
 			fileCache.removeFile(fileFound.getAbsolutePath());
 			sendDownloadMessage(file);
@@ -120,8 +120,8 @@ public class FileMessage extends Messages {
 				try {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
-					byte[] b = new byte[(int)file.length()];
-					raf.read(b, offset, MAXCHUNKSIZE);
+					byte[] b = new byte[MAXCHUNKSIZE];
+					raf.read(b, 0, MAXCHUNKSIZE);
 
 					String encoded = Base64.encodeBase64String(b);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
@@ -142,8 +142,8 @@ public class FileMessage extends Messages {
 				try {
 					raf = new RandomAccessFile(file, "rw");
 					raf.seek(offset);
-					byte[] b = new byte[(int)file.length()];
-					raf.read(b, offset, sizeLeft);
+					byte[] b = new byte[MAXCHUNKSIZE];
+					raf.read(b, 0, sizeLeft);
 
 					String encoded = Base64.encodeBase64String(b);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "

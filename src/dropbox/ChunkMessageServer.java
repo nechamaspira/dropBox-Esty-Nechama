@@ -51,7 +51,7 @@ public class ChunkMessageServer extends Messages {
 			fileCache.addChunk(chunk);
 
 			
-			//change the adte when fully uploaded
+			//change the date when fully uploaded
 			if ((offset + chunk.getChunkSize()) == file.length()) {
 				System.out.println("date modified in upload " + Long.parseLong(array[2]));
 				file.setLastModified(Long.parseLong(array[2]));
@@ -61,7 +61,9 @@ public class ChunkMessageServer extends Messages {
 			//send sync message when all the last chunk is uploaded
 			int fileSize = Integer.parseInt(array[3]);
 			int chunkSize = chunk.getChunkSize();
-			if ((offset + chunkSize) == fileSize) {
+			
+			System.out.println("file size:" + fileSize + " chunk size: "+ chunkSize + " offset" + offset);
+			if ((offset + chunkSize) >= fileSize) {
 				for (Socket s : sockets) {
 					writer = new PrintWriter(s.getOutputStream());
 					writer.println("SYNC " + filename + " " + lastModified + fileSize);

@@ -7,7 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class ChunkMessageClient extends Messages {
 
-	private static final String ROOT = "./";
+	public static final String ROOT = "./";
 
 	public ChunkMessageClient(FileCache cache) {
 		string = "CHUNK";

@@ -1,25 +1,23 @@
 package dropbox;
 
-
 public class Chunk {
 
 	private String filename;
 
 	private byte bytes[];
 	private int start;
-	//private String info;
-	
-	
 
+	// private String info;
 
-	//public Chunk(String filename,String info, int position){
-		public Chunk(String filename, byte[] bytes, int position){
+	// public Chunk(String filename,String info, int position){
+	public Chunk(String filename, byte[] bytes, int position) {
 
-		//this.info=info;
+		// this.info=info;
 		this.filename = filename;
 		this.bytes = bytes;
 		this.start = position;
-		}
+	}
+
 	public String getFilename() {
 		return filename;
 	}
@@ -27,12 +25,15 @@ public class Chunk {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
 	public byte[] getBytes() {
 		return bytes;
 	}
+
 	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
 	}
+
 	public int getStart() {
 		return start;
 	}
@@ -41,20 +42,20 @@ public class Chunk {
 		this.start = start;
 	}
 
-	public int getChunkSize(){
-		/*byte[] b = null;
-		
-			b = Base64.decodeBase64(info);
-		
-		return b.length;*/
+	public int getChunkSize() {
+		/*
+		 * byte[] b = null;
+		 * 
+		 * b = Base64.decodeBase64(info);
+		 * 
+		 * return b.length;
+		 */
 		return bytes.length;
 
-
-	/*public int getChunkSize() {
-		byte[] b = null;
-		b = Base64.decodeBase64(info);
-		return b.length;
-*/
+		/*
+		 * public int getChunkSize() { byte[] b = null; b =
+		 * Base64.decodeBase64(info); return b.length;
+		 */
 	}
 
 }
