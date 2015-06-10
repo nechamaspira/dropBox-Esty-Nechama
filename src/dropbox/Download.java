@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -32,10 +33,7 @@ public class Download extends Messages {
 			byte[] b = new byte[MAXCHUNKSIZE];
 			int numRead = raf.read(b, 0, chunkLength);
 
-			byte[] b2 = new byte[numRead];
-			for(int i=0; i<b2.length; i++){
-				b2[i] = b[i];
-			}
+			byte[] b2 = Arrays.copyOf(b, numRead);
 			String encoded = Base64.encodeBase64String(b2);
 
 			writer.println("CHUNK " + array[1] + " " + file.lastModified() + " " + file.length() + " " + offset + " "

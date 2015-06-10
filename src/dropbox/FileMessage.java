@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -139,10 +140,8 @@ public class FileMessage extends Messages {
 					raf.seek(offset);
 					byte[] b = new byte[MAXCHUNKSIZE];
 					int numRead = raf.read(b, 0, sizeLeft);
-					byte[] b2 = new byte[numRead];
-					for(int i=0; i<b2.length; i++){
-						b2[i] = b[i];
-					}
+					byte[] b2 = Arrays.copyOf(b, numRead);
+					
 					encoded = Base64.encodeBase64String(b2);
 					writer.println("CHUNK " + file.getName() + " " + file.lastModified() + " " + file.length() + " "
 							+ offset + " " + encoded);
